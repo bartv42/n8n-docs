@@ -28,3 +28,274 @@ The workflow should look like this:
 * How many unique regions are assigned in the customers table?
 * What's the subregion assigned to the customerID 10?
 ///
+
+??? note "Show me the solution"
+
+    To check the configuration of the nodes, you can copy-paste the JSON code of the workflow:
+
+    ```json
+    {
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "cb484ba7b742928a2048bf8829668bed5b5ad9787579adea888f05980292a4a7"
+    },
+    "nodes": [
+        {
+        "parameters": {},
+        "id": "16de0270-c143-4bb7-a30b-ad9454d1ffbc",
+        "name": "When clicking \"Test workflow\"",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+            680,
+            540
+        ]
+        },
+        {
+        "parameters": {
+            "operation": "search",
+            "base": {
+            "__rl": true,
+            "value": "apprtKkVasbQDbFa1",
+            "mode": "list",
+            "cachedResultName": "All your base",
+            "cachedResultUrl": "https://airtable.com/apprtKkVasbQDbFa1"
+            },
+            "table": {
+            "__rl": true,
+            "value": "tblInZ7jeNdlUOvxZ",
+            "mode": "list",
+            "cachedResultName": "Course L2, Workflow 1",
+            "cachedResultUrl": "https://airtable.com/apprtKkVasbQDbFa1/tblInZ7jeNdlUOvxZ"
+            },
+            "options": {}
+        },
+        "id": "91645956-61c7-474b-a902-3f5973a4a89a",
+        "name": "Airtable",
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2,
+        "position": [
+            920,
+            440
+        ],
+        "credentials": {
+            "airtableTokenApi": {
+            "id": "MIplo6lY3AEsdf7L",
+            "name": "Airtable Personal Access Token account 4"
+            }
+        }
+        },
+        {
+        "parameters": {
+            "url": "https://restcountries.com/v3.1/all",
+            "options": {}
+        },
+        "id": "e10ec8b0-48b4-407a-8e7e-a89207f70a1a",
+        "name": "HTTP Request",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+            920,
+            660
+        ]
+        },
+        {
+        "parameters": {
+            "mode": "combine",
+            "mergeByFields": {
+            "values": [
+                {
+                "field1": "customerCountry",
+                "field2": "name.common"
+                }
+            ]
+            },
+            "options": {}
+        },
+        "id": "2709c9bd-41e3-41b7-b5db-920a9b458a02",
+        "name": "Merge",
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 2.1,
+        "position": [
+            1140,
+            540
+        ]
+        },
+        {
+        "parameters": {
+            "operation": "update",
+            "base": {
+            "__rl": true,
+            "value": "apprtKkVasbQDbFa1",
+            "mode": "list",
+            "cachedResultName": "All your base",
+            "cachedResultUrl": "https://airtable.com/apprtKkVasbQDbFa1"
+            },
+            "table": {
+            "__rl": true,
+            "value": "tblInZ7jeNdlUOvxZ",
+            "mode": "list",
+            "cachedResultName": "Course L2, Workflow 1",
+            "cachedResultUrl": "https://airtable.com/apprtKkVasbQDbFa1/tblInZ7jeNdlUOvxZ"
+            },
+            "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+                "id": "={{ $json.id }}",
+                "region": "={{ $json.region }}",
+                "subregion": "={{ $json.subregion }}"
+            },
+            "matchingColumns": [
+                "id"
+            ],
+            "schema": [
+                {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": true,
+                "removed": false
+                },
+                {
+                "id": "customerID",
+                "displayName": "customerID",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "number",
+                "readOnly": false,
+                "removed": false
+                },
+                {
+                "id": "customerCountry",
+                "displayName": "customerCountry",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+                },
+                {
+                "id": "customerEmail",
+                "displayName": "customerEmail",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+                },
+                {
+                "id": "customerSince",
+                "displayName": "customerSince",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+                },
+                {
+                "id": "region",
+                "displayName": "region",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+                },
+                {
+                "id": "subregion",
+                "displayName": "subregion",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+                }
+            ]
+            },
+            "options": {}
+        },
+        "id": "856bd214-7893-4dcc-b347-238efa7834c0",
+        "name": "Airtable1",
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2,
+        "position": [
+            1360,
+            540
+        ],
+        "credentials": {
+            "airtableTokenApi": {
+            "id": "MIplo6lY3AEsdf7L",
+            "name": "Airtable Personal Access Token account 4"
+            }
+        }
+        }
+    ],
+    "connections": {
+        "When clicking \"Test workflow\"": {
+        "main": [
+            [
+            {
+                "node": "Airtable",
+                "type": "main",
+                "index": 0
+            },
+            {
+                "node": "HTTP Request",
+                "type": "main",
+                "index": 0
+            }
+            ]
+        ]
+        },
+        "Airtable": {
+        "main": [
+            [
+            {
+                "node": "Merge",
+                "type": "main",
+                "index": 0
+            }
+            ]
+        ]
+        },
+        "HTTP Request": {
+        "main": [
+            [
+            {
+                "node": "Merge",
+                "type": "main",
+                "index": 1
+            }
+            ]
+        ]
+        },
+        "Merge": {
+        "main": [
+            [
+            {
+                "node": "Airtable1",
+                "type": "main",
+                "index": 0
+            }
+            ]
+        ]
+        }
+    },
+    "pinData": {}
+    }
+    ```
